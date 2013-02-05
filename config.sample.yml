@@ -1,0 +1,9 @@
+## Main database
+database:
+  type: mysql
+  user: username
+  password: password
+  database: database
+  host: localhost
+  port: 3306
+  encoding: LATIN1
