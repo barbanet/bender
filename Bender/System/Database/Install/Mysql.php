@@ -20,6 +20,13 @@ class Mysql {
     
     public function getTables() {
         $_tables = array();
+        $_tables[] = 'CREATE TABLE IF NOT EXISTS options (
+                        option_id INT NOT NULL AUTO_INCREMENT,
+                        code VARCHAR(255) NOT NULL,
+                        value VARCHAR(255) NULL,
+                        PRIMARY KEY (option_id),
+                        UNIQUE INDEX UQ_CORE_CODE (code ASC)
+                      ) ENGINE = InnoDB;';
         $_tables[] = 'CREATE TABLE IF NOT EXISTS logs (
                         log_id INT NOT NULL AUTO_INCREMENT,
                         date DATETIME NULL,

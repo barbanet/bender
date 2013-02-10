@@ -21,10 +21,9 @@ use Bender\Model\Action as Action;
 use Bender\Core as Core;
 use \Exception;
 
-class Add extends Core
-{
-    public function __construct($name = null)
-    {
+class Add extends Core {
+    
+    public function __construct($name = null) {
         parent::__construct($name);
         $this->setDescription('Add an action');
         $this->setHelp('Adds a new action to the application.');
@@ -32,8 +31,7 @@ class Add extends Core
         $this->addArgument('class', Console\Input\InputArgument::REQUIRED, 'Class path');
     }
 
-    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output)
-    {
+    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         $class = $input->getArgument('class');
         $alias = $input->getArgument('alias');
         try {
@@ -44,8 +42,7 @@ class Add extends Core
         }
     }
     
-    private function _createAction($class, $alias)
-    {
+    private function _createAction($class, $alias) {
         if (file_exists(__DIR__ . '/../../../Action/'. $class . '.php')) {
             $class = 'Action/' . $class;
             $_action = new Action;

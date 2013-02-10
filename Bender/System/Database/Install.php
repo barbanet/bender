@@ -19,11 +19,11 @@ namespace Bender\System\Database;
 use Symfony\Component\Console as Console;
 use Bender\Core\Configuration;
 use Bender\Core\Database as Database;
+use Bender\Model\Option as Option;
 use Bender\Core as Core;
 use Bender\System\Database\Install\Mysql as Mysql;
 
-class Install extends Core
-{
+class Install extends Core {
     
     private $_database;
     
@@ -39,6 +39,7 @@ class Install extends Core
             $this->_database->query($_table);
         }
         $output->writeln(sprintf('<info>%s tables created</info>', count($_tables)));
+        $this->_addVersion();
     }
     
     private function _getTables() {
@@ -48,6 +49,11 @@ class Install extends Core
                 return Mysql::getTables();
             break;
         }
+    }
+    
+    private function _addVersion() {
+        $_option = new Option;
+        $_option->add('bender/version', $this->getApplication()->getVersion());
     }
 }
 
