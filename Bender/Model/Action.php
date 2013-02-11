@@ -27,9 +27,11 @@ class Action {
 
     //TODO: add variable validation
     public function load($alias) {
-        $_action = $this->_database->query("SELECT action_id, class, alias, description, available FROM actions WHERE alias = '" . $alias . "';");
-        if ($_action->rowCount() == 1) {
-            return $_action;
+        $_actions = $this->_database->query("SELECT action_id, class, alias, description, available FROM actions WHERE alias = '" . $alias . "';");
+        if ($_actions->rowCount() > 0) {
+            foreach ($_actions as $_action) {
+                return $_action;
+            }
         }
         return false;
     }
