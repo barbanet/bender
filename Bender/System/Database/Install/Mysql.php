@@ -20,21 +20,21 @@ class Mysql {
     
     public function getTables() {
         $_tables = array();
-        $_tables[] = 'CREATE TABLE IF NOT EXISTS options (
+        $_tables[] = "CREATE TABLE IF NOT EXISTS options (
                         option_id INT NOT NULL AUTO_INCREMENT,
                         code VARCHAR(255) NOT NULL,
                         value VARCHAR(255) NULL,
                         PRIMARY KEY (option_id),
                         UNIQUE INDEX UQ_CORE_CODE (code ASC)
-                      ) ENGINE = InnoDB;';
-        $_tables[] = 'CREATE TABLE IF NOT EXISTS logs (
+                      ) ENGINE = InnoDB;";
+        $_tables[] = "CREATE TABLE IF NOT EXISTS logs (
                         log_id INT NOT NULL AUTO_INCREMENT,
                         date DATETIME NULL,
                         type CHAR(3) NULL,
                         activity VARCHAR(500) NULL,
                         PRIMARY KEY (log_id)
-                      ) ENGINE = InnoDB;';
-        $_tables[] = 'CREATE TABLE IF NOT EXISTS actions (
+                      ) ENGINE = InnoDB;";
+        $_tables[] = "CREATE TABLE IF NOT EXISTS actions (
                         action_id INT NOT NULL AUTO_INCREMENT,
                         class VARCHAR(200) NOT NULL,
                         alias VARCHAR(200) NOT NULL,
@@ -42,24 +42,24 @@ class Mysql {
                         available INT(1) NULL DEFAULT 1,
                         PRIMARY KEY (action_id),
                         UNIQUE INDEX UQ_ACTIONS_MODULE_NAME (alias ASC)
-                      ) ENGINE = InnoDB;';
-        $_tables[] = 'CREATE TABLE IF NOT EXISTS tasks (
+                      ) ENGINE = InnoDB;";
+        $_tables[] = "CREATE TABLE IF NOT EXISTS tasks (
                         task_id INT NOT NULL AUTO_INCREMENT,
                         action_id INT NOT NULL,
                         name VARCHAR(255) NULL,
                         available INT(1) NULL DEFAULT 0,
-                        year INT(4) NULL,
-                        month INT(2) NULL,
-                        day INT(2) NULL,
-                        hour INT(2) NULL,
-                        minute INT(2) NULL,
-                        dow INT(1) NULL,
+                        year CHAR(20) NOT NULL DEFAULT '*',
+                        month CHAR(20) NOT NULL DEFAULT '*',
+                        day CHAR(20) NOT NULL DEFAULT '*',
+                        hour CHAR(20) NOT NULL DEFAULT '*',
+                        minute CHAR(20) NOT NULL DEFAULT '*',
+                        dow CHAR(20) NOT NULL DEFAULT '*',
                         PRIMARY KEY (task_id),
                         INDEX FK_TASKS_ACTION (action_id ASC),
                         CONSTRAINT FK_TASKS_ACTION FOREIGN KEY (action_id)
                           REFERENCES actions (action_id)
                           ON DELETE NO ACTION ON UPDATE NO ACTION
-                      ) ENGINE = InnoDB;';
+                      ) ENGINE = InnoDB;";
         /*
         $_tables[] = 'CREATE TABLE IF NOT EXISTS actions_logs (
                         action_log_id INT NOT NULL AUTO_INCREMENT,
