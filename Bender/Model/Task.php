@@ -70,6 +70,18 @@ class Task {
         return $_tasks;
     }
     
+    public function available($year, $month, $day, $hour, $minute, $dow) {
+        $_tasks = $this->_database->query("SELECT class, alias FROM tasks, actions WHERE
+                                            tasks.action_id = actions.action_id and tasks.available = 1
+                                            and (tasks.year = '" . $year . "' or tasks.year = '*')
+                                            and (tasks.month = '" . $month . "' or tasks.month = '*')
+                                            and (tasks.day = '" . $day . "' or tasks.day = '*')
+                                            and (tasks.hour = '" . $hour . "' or tasks.hour = '*')
+                                            and (tasks.minute = '" . $minute . "' or tasks.minute = '*')
+                                            and (tasks.dow = '" . $dow . "' or tasks.dow = '*');");
+        return $_tasks;
+    }
+    
 }
 
 ?>
