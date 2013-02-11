@@ -1,7 +1,7 @@
 # Bender
 
-Collabtive-CI is web-based project management software based on Collabtive.
-The idea is to maintain the compatibility with the original project adding new features.
+The idea behind this application is to provide a minimal structure to create actions and tasks that can be run from a single call to the crontab.
+
 
 * Version: 0.0.2
 
