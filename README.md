@@ -34,4 +34,4 @@ The idea behind this application is to provide a minimal structure to create act
 
 ## Blog
 
-[Oficial blog](http://www.damianculotta.com.ar/category/laboratorio/bender/)
+[Official blog](http://www.damianculotta.com.ar/category/laboratorio/bender/)
