@@ -22,18 +22,20 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 interface OutputInterface
 {
-    const VERBOSITY_QUIET   = 0;
-    const VERBOSITY_NORMAL  = 1;
-    const VERBOSITY_VERBOSE = 2;
+    const VERBOSITY_QUIET        = 0;
+    const VERBOSITY_NORMAL       = 1;
+    const VERBOSITY_VERBOSE      = 2;
+    const VERBOSITY_VERY_VERBOSE = 3;
+    const VERBOSITY_DEBUG        = 4;
 
     const OUTPUT_NORMAL = 0;
-    const OUTPUT_RAW = 1;
-    const OUTPUT_PLAIN = 2;
+    const OUTPUT_RAW    = 1;
+    const OUTPUT_PLAIN  = 2;
 
     /**
      * Writes a message to the output.
      *
-     * @param string|array $messages The message as an array of lines of a single string
+     * @param string|array $messages The message as an array of lines or a single string
      * @param Boolean      $newline  Whether to add a newline or not
      * @param integer      $type     The type of output (0: normal, 1: raw, 2: plain)
      *
