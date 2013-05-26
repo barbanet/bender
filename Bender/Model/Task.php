@@ -30,7 +30,7 @@ class Task {
     //TODO: add variable validation
     public function load($name) {
         $_tasks = $this->_database->query("SELECT task_id, action_id, name, available, year, month, day, hour, minute, dow FROM tasks WHERE name = '" . $name . "';");
-        if ($_tasks->rowCount() > 0) {
+        if ($_tasks) {
             foreach ($_tasks as $_task) {
                 return $_task;
             }

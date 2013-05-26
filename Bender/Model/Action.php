@@ -28,7 +28,7 @@ class Action {
     //TODO: add variable validation
     public function load($alias) {
         $_actions = $this->_database->query("SELECT action_id, class, alias, description, available FROM actions WHERE alias = '" . $alias . "';");
-        if ($_actions->rowCount() > 0) {
+        if ($_actions) {
             foreach ($_actions as $_action) {
                 return $_action;
             }
