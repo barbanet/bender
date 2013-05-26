@@ -41,7 +41,7 @@ $functions = array (
                 array('name' => 'Bender\System\Task\Update', 'alias' => 'task:update'),
             );
 
-$application = new Console\Application('Bender', '0.0.2');
+$application = new Console\Application('Bender', '0.0.3');
 foreach ($functions as $function) {
     $application->add(new $function['name']($function['alias']));
 }

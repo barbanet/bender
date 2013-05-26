@@ -27,7 +27,7 @@ $loader->register();
 
 use Symfony\Component\Console as Console;
 
-$application = new Console\Application('Bender', '0.0.2');
+$application = new Console\Application('Bender', '0.0.3');
 $application->add(new Bender\Cron('system:cron'));
 $application->run();
 
