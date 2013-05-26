@@ -7,3 +7,14 @@ database:
   host: localhost
   port: 3306
   encoding: LATIN1
+email:
+  protocol: smtp
+  validate: true
+  smtp_host: mail.example.com
+  smtp_port: 25
+  smtp_user: username
+  smtp_pass: password
+  mailtype: text
+  newline: \r\n
+  address: name@example.com
+  name: Bender
