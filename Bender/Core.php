@@ -19,10 +19,12 @@ namespace Bender;
 use Symfony\Component\Console as Console;
 use Symfony\Component\Yaml\Yaml as Yaml;
 use Bender\Core\Logger as Logger;
+use Bender\Core\Email as Email;
 
 class Core extends Console\Command\Command {
     
     protected $_logger;
+    protected $_mailer;
 
     public function __construct($name = null) {
         parent::__construct($name);
@@ -42,6 +44,15 @@ class Core extends Console\Command\Command {
         return $this->_logger;
     }
     
+    protected function _getMailer() {
+        if (!$this->_mailer) {
+            $this->_mailer = new Email;
+        }
+        return $this->_mailer;
+    }
+    
+    
+
 }
 
 ?>
