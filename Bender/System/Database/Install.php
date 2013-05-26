@@ -34,12 +34,40 @@ class Install extends Core {
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
+        
+        $_formatter = $this->getHelperSet()->get('formatter');
+        $_dialog = $this->getHelperSet()->get('dialog');
+
+        $_message = $_formatter->formatSection(
+            'Bender says',
+            'This action will create the tables into your database. Do you want to continue? [y/N]'
+        );
+        if (!$_dialog->askConfirmation(
+                $output,
+                $_message,
+                false
+            )) {
+            return;
+        }
+
+        $_progress = $this->getHelperSet()->get('progress');
         $_tables = $this->_getTables();
+        
+        $_progress->start($output, count($_tables));
         foreach ($_tables as $_table) {
             $this->_database->query($_table);
+            $_progress->advance();
         }
-        $output->writeln(sprintf('<info>%s tables created</info>', count($_tables)));
+        $_progress->finish();
+        
+        $_message = $_formatter->formatSection(
+            'Bender says',
+            sprintf('%s tables created', count($_tables))
+        );
+        $output->writeln($_message);
+        
         $this->_addVersion();
+        
     }
     
     private function _getTables() {
@@ -55,6 +83,7 @@ class Install extends Core {
         $_option = new Option;
         $_option->add('bender/version', $this->getApplication()->getVersion());
     }
+    
 }
 
 ?>
