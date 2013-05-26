@@ -31,7 +31,9 @@ class Version extends Core {
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
-        $output->writeln(sprintf('Version: %s', $this->_database->getVersion()));
+        if ($this->_database) {
+            $output->writeln(sprintf('Version: %s', $this->_database->getVersion()));
+        }
     }
     
 }

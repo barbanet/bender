@@ -31,7 +31,9 @@ class Engine extends Core {
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
-        $output->writeln(sprintf('Database Engine: %s', $this->_database->getType()));
+        if ($this->_database) {
+            $output->writeln(sprintf('Database Engine: %s', $this->_database->getType()));
+        }
     }
 }
 
