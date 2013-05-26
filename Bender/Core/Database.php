@@ -24,7 +24,6 @@ use \Exception;
 class Database {
     
     private $_connection;
-    private $_database;
     private $_type;
     private static $instance;
     
@@ -38,12 +37,16 @@ class Database {
     public static function getInstance() {
         if (!isset(self::$instance)) {
             $configuration = Configuration::get();
-            self::$instance = new Database($configuration['database']['type']);
-            self::$instance->connect($configuration['database']['user'],
-                                     $configuration['database']['password'],
-                                     $configuration['database']['database'],
-                                     $configuration['database']['host'],
-                                     $configuration['database']['port']);
+            if (is_array($configuration)) {
+                self::$instance = new Database($configuration['database']['type']);
+                self::$instance->connect($configuration['database']['user'],
+                                         $configuration['database']['password'],
+                                         $configuration['database']['database'],
+                                         $configuration['database']['host'],
+                                         $configuration['database']['port']);
+            } else {
+                return false;
+            }
         }
         return self::$instance;
     }
