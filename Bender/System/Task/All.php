@@ -30,9 +30,15 @@ class All extends Core {
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         $_tasks = $this->_getTasks();
         if ($_tasks) {
+            $_rows = array();
+            $_table = $this->getHelperSet()->get('table');
+            $_table->setHeaders(array('Name','Available', 'Year', 'Month', 'Day', 'Hour', 'Minute', 'Dow'));
             foreach ($_tasks as $_task) {
-                $output->writeln(sprintf('<comment>%s</comment>', $_task->name));
+                $_rows[] = array($_task->name, $_task->available, $_task->year, $_task->month,
+                                        $_task->day, $_task->hour, $_task->minute, $_task->dow);
             }
+            $_table->setRows($_rows);
+            $_table->render($output);
         } else {
             $output->writeln('<error>No tasks found.</error>');
         }

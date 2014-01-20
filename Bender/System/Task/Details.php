@@ -31,17 +31,14 @@ class Details extends Core {
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         $name = $input->getArgument('name');
-
         $_task = $this->_getTask($name);
         if ($_task) {
-            $output->writeln(sprintf('Task: <info>%s</info>', $_task->name));
-            $output->writeln(sprintf('<comment>available</comment>: %s', $_task->available));
-            $output->writeln(sprintf('<comment>year</comment>: %s', $_task->year));
-            $output->writeln(sprintf('<comment>month</comment>: %s', $_task->month));
-            $output->writeln(sprintf('<comment>day</comment>: %s', $_task->day));
-            $output->writeln(sprintf('<comment>hour</comment>: %s', $_task->hour));
-            $output->writeln(sprintf('<comment>minute</comment>: %s', $_task->minute));
-            $output->writeln(sprintf('<comment>dow</comment>: %s', $_task->dow));
+            $_table = $this->getHelperSet()->get('table');
+            $_table->setHeaders(array('Name','Available', 'Year', 'Month', 'Day', 'Hour', 'Minute', 'Dow'));
+            $_rows = array(array($_task->name, $_task->available, $_task->year, $_task->month,
+                                    $_task->day, $_task->hour, $_task->minute, $_task->dow));
+            $_table->setRows($_rows);
+            $_table->render($output);
         } else {
             $output->writeln(sprintf('Task <error>%s</error> not exists.', $name));
         }
