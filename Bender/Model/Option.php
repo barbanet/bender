@@ -27,9 +27,11 @@ class Option {
 
     //TODO: add variable validation
     public function load($code) {
-        $_core = $this->_database->query("SELECT option_id, code, value FROM options WHERE code = '" . $code . "';");
-        if ($_core->rowCount() == 1) {
-            return $_core;
+        $_options = $this->_database->query("SELECT option_id, code, value FROM options WHERE code = '" . $code . "';");
+        if ($_options) {
+            foreach ($_options as $_option) {
+                return $_option;
+            }
         }
         return false;
     }
@@ -40,7 +42,7 @@ class Option {
     }
     
     //TODO: add variable validation
-    public function update() {
+    public function update($code, $value) {
         $this->_database->query("UPDATE options SET value = '" . $value . "' WHERE code = '" . $code . "';");
     }
     
