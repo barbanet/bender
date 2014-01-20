@@ -31,6 +31,10 @@ class Log {
         return $_logs;
     }
     
+    public function delete($date) {
+        $this->_database->query("DELETE FROM logs WHERE date < '" . $date . "';");
+    }
+    
 }
 
 ?>
