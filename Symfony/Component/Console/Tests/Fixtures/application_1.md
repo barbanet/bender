@@ -51,7 +51,7 @@ To display the list of available commands, please use the <info>list</info> comm
 * Is value required: yes
 * Is multiple: no
 * Description: To output help in other formats
-* Default: `NULL`
+* Default: `'txt'`
 
 **raw:**
 
@@ -87,11 +87,11 @@ To display the list of available commands, please use the <info>list</info> comm
 
 * Name: `--verbose`
 * Shortcut: `-v|-vv|-vvv`
-* Accept value: no
+* Accept value: yes
 * Is value required: no
 * Is multiple: no
 * Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-* Default: `false`
+* Default: `NULL`
 
 **version:**
 
@@ -196,4 +196,4 @@ It's also possible to get raw list of commands (useful for embedding command run
 * Is value required: yes
 * Is multiple: no
 * Description: To output list in other formats
-* Default: `NULL`
+* Default: `'txt'`
