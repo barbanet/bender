@@ -30,7 +30,7 @@ class Core extends Console\Command\Command {
         parent::__construct($name);
         $this->_validateInstaller();
     }
-    
+        
     private function _validateInstaller() {
         if (!Yaml::parse('config.yml')) {
             //Throw exception message

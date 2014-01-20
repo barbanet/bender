@@ -40,7 +40,9 @@ class Cron extends Core {
             }
             foreach ($_tasks as $_task) {
                 $command = $this->getApplication()->find($_task);
+                $this->_getLogger()->save($command->getName() . ' starts.');
                 $command->run($input, $output);
+                $this->_getLogger()->save($command->getName() . ' ends.');
             }
         }
     }
