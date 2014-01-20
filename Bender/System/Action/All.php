@@ -30,9 +30,14 @@ class All extends Core {
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         $_actions = $this->_getActions();
         if ($_actions) {
+            $_rows = array();
+            $_table = $this->getHelperSet()->get('table');
+            $_table->setHeaders(array('Name', 'Class'));
             foreach ($_actions as $_action) {
-                $output->writeln(sprintf('<info>%s</info> (<comment>%s</comment>)', $_action->alias, $_action->class));
+                $_rows[] = array($_action->alias, $_action->class);
             }
+            $_table->setRows($_rows);
+            $_table->render($output);
         } else {
             $output->writeln('<error>No actions found.</error>');
         }
