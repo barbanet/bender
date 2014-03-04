@@ -28,7 +28,8 @@ class Cron extends Core {
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
-        if ($_tasks = $this->_getTasks()) {
+        $_tasks = $this->_getTasks();
+        if ($_tasks) {
             $functions = array();
             foreach ($_tasks as $_task) {
                 $functions[] = array('name' => $_task->class, 'alias' => $_task->alias);
