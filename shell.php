@@ -26,6 +26,7 @@ $loader->registerNamespace('Action', __DIR__.'/');
 $loader->register();
 
 use Symfony\Component\Console as Console;
+use Bender\Model\Action as Action;
 
 $functions = array (
                 array('name' => 'Bender\System\Action\Add', 'alias' => 'action:add'),
@@ -33,7 +34,10 @@ $functions = array (
                 array('name' => 'Bender\System\Action\Delete', 'alias' => 'action:delete'),
                 array('name' => 'Bender\System\Database\Engine', 'alias' => 'database:engine'),
                 array('name' => 'Bender\System\Database\Install', 'alias' => 'database:install'),
+                array('name' => 'Bender\System\Database\Upgrade', 'alias' => 'database:upgrade'),
                 array('name' => 'Bender\System\Database\Version', 'alias' => 'database:version'),
+                array('name' => 'Bender\System\Log\All', 'alias' => 'log:all'),
+                array('name' => 'Bender\System\Log\Clean', 'alias' => 'log:clean'),
                 array('name' => 'Bender\System\Task\Add', 'alias' => 'task:add'),
                 array('name' => 'Bender\System\Task\All', 'alias' => 'task:all'),
                 array('name' => 'Bender\System\Task\Delete', 'alias' => 'task:delete'),
@@ -41,7 +45,12 @@ $functions = array (
                 array('name' => 'Bender\System\Task\Update', 'alias' => 'task:update'),
             );
 
-$application = new Console\Application('Bender', '0.0.3');
+$_actions = new Action();
+foreach ($_actions->shell() as $_action) {
+    $functions[] = array('name' => $_action->class, 'alias' => 'custom:' . $_action->alias);
+}
+
+$application = new Console\Application('Bender', '0.0.4');
 foreach ($functions as $function) {
     $application->add(new $function['name']($function['alias']));
 }
