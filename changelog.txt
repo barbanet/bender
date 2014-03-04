@@ -1,0 +1,25 @@
+Version 0.0.4
+
+* Added tables friendly format.
+* Upgrade of Symfony components.
+* Added logs on cron execution.
+* Added logs actions on shell.
+* Changed Action structure. Now you can add actions to be used on cron, shell or both.
+
+Version 0.0.3
+
+* Email sample action.
+* Validation to avoid errors when database is not configured.
+* Improvement to the installer.
+* Bender's email library.
+* Fixed how the returned value is validated on models.
+* Upgrade of Symfony components to 2.3.
+
+Version 0.0.2
+
+* Changed database access from mysql_ to PDO.
+* Added core models.
+* Changed tasks managment.
+* Removed unused tables.
+* Added options table for main configuration params.
+* Added sample actions and sample plugin.

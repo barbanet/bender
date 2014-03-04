@@ -3,7 +3,7 @@
 The idea behind this application is to provide a minimal structure to create actions and tasks that can be run from a single call to the crontab.
 
 
-* Version: 0.0.3
+* Version: 0.0.4
 
 
 ## Requirements
@@ -19,18 +19,6 @@ The idea behind this application is to provide a minimal structure to create act
 4. The empty database needs to be created before the next step.
 5. Install the database tables with command: database:install
 6. You're ready.
-
-## Bugs
-
-[Issue tracker](https://github.com/barbanet/bender/issues)
-
-## Changelog
-
-[Wiki page](https://github.com/barbanet/bender/wiki/Changelog)
-
-## Roadmap
-
-[Wiki page](https://github.com/barbanet/bender/wiki/Roadmap)
 
 ## Blog
 
