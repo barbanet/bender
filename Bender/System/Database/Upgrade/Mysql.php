@@ -38,6 +38,8 @@ class Mysql {
                       unsigned NOT NULL default 1 AFTER description;";
                 $this->_upgrades[] = "ALTER TABLE actions ADD is_shell smallint
                       unsigned NOT NULL default 0 AFTER is_cron;";
+                $this->_upgrades[] = "INSERT INTO options(code,value) VALUES
+                      ('bender/custom_actions','1');";
             break;
             default:
                 return false;

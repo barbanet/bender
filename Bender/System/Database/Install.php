@@ -67,6 +67,7 @@ class Install extends Core {
         $output->writeln($_message);
         
         $this->_addVersion();
+        $this->_addOptions();
         
     }
     
@@ -82,6 +83,11 @@ class Install extends Core {
     private function _addVersion() {
         $_option = new Option;
         $_option->add('bender/version', $this->getApplication()->getVersion());
+    }
+    
+    private function _addOptions() {
+        $_option = new Option;
+        $_option->add('bender/custom_actions', '1');
     }
     
 }

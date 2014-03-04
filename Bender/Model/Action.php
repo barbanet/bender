@@ -16,6 +16,7 @@
 
 namespace Bender\Model;
 use Bender\Core\Database as Database;
+use Bender\Model\Option as Option;
 
 class Action {
 
@@ -57,8 +58,12 @@ class Action {
     }
     
     public function shell() {
-        $_actions = $this->_database->query('SELECT class, alias FROM actions WHERE is_shell = 1;');
-        return $_actions;
+        $_option = new Option;
+        if ($_option->load('bender/custom_actions') && $_option->load('bender/custom_actions')->value == 1) {
+            $_actions = $this->_database->query('SELECT class, alias FROM actions WHERE is_shell = 1;');
+            return $_actions;
+        }
+        return false;
     }
     
 }

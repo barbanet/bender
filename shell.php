@@ -46,8 +46,10 @@ $functions = array (
             );
 
 $_actions = new Action();
-foreach ($_actions->shell() as $_action) {
-    $functions[] = array('name' => $_action->class, 'alias' => 'custom:' . $_action->alias);
+if ($_actions->shell()) {
+    foreach ($_actions->shell() as $_action) {
+        $functions[] = array('name' => $_action->class, 'alias' => 'custom:' . $_action->alias);
+    }
 }
 
 $application = new Console\Application('Bender', '0.0.4');

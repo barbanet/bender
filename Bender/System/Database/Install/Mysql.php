@@ -39,6 +39,8 @@ class Mysql {
                         class VARCHAR(200) NOT NULL,
                         alias VARCHAR(200) NOT NULL,
                         description VARCHAR(255) NULL,
+                        is_cron SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+                        is_shell SMALLINT UNSIGNED NOT NULL DEFAULT 0,
                         available INT(1) NULL DEFAULT 1,
                         PRIMARY KEY (action_id),
                         UNIQUE INDEX UQ_ACTIONS_MODULE_NAME (alias ASC)
