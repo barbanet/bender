@@ -72,13 +72,14 @@ class Task {
     
     public function available($year, $month, $day, $hour, $minute, $dow) {
         $_tasks = $this->_database->query("SELECT class, alias FROM tasks, actions WHERE
-                                            tasks.action_id = actions.action_id and tasks.available = 1
-                                            and (tasks.year = '" . $year . "' or tasks.year = '*')
-                                            and (tasks.month = '" . $month . "' or tasks.month = '*')
-                                            and (tasks.day = '" . $day . "' or tasks.day = '*')
-                                            and (tasks.hour = '" . $hour . "' or tasks.hour = '*')
-                                            and (tasks.minute = '" . $minute . "' or tasks.minute = '*')
-                                            and (tasks.dow = '" . $dow . "' or tasks.dow = '*');");
+                                            tasks.action_id = actions.action_id AND tasks.available = 1
+                                            AND (tasks.year = '" . $year . "' OR tasks.year = '*')
+                                            AND (tasks.month = '" . $month . "' OR tasks.month = '*')
+                                            AND (tasks.day = '" . $day . "' OR tasks.day = '*')
+                                            AND (tasks.hour = '" . $hour . "' OR tasks.hour = '*')
+                                            AND (tasks.minute = '" . $minute . "' OR tasks.minute = '*')
+                                            AND (tasks.dow = '" . $dow . "' OR tasks.dow = '*')
+                                            AND actions.is_cron = 1;");
         return $_tasks;
     }
     

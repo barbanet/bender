@@ -29,24 +29,28 @@ class Add extends Core {
         $this->setHelp('Adds a new action to the application.');
         $this->addArgument('alias', Console\Input\InputArgument::REQUIRED, 'Suggested alias');
         $this->addArgument('class', Console\Input\InputArgument::REQUIRED, 'Class path');
+        $this->addArgument('is_cron', Console\Input\InputArgument::OPTIONAL, 'Available for cron', '1');
+        $this->addArgument('is_shell', Console\Input\InputArgument::OPTIONAL, 'Available for shell', '0');
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         $class = $input->getArgument('class');
         $alias = $input->getArgument('alias');
+        $is_cron = $input->getArgument('is_cron');
+        $is_shell = $input->getArgument('is_shell');
         try {
-            $this->_createAction($class, $alias);
+            $this->_createAction($class, $alias, $is_cron, $is_shell);
             $output->writeln(sprintf('Action <comment>%s</comment> added', $alias));
         } catch (Exception $e) {
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
         }
     }
     
-    private function _createAction($class, $alias) {
+    private function _createAction($class, $alias, $is_cron, $is_shell) {
         if (file_exists(__DIR__ . '/../../../Action/'. $class . '.php')) {
             $class = 'Action/' . $class;
             $_action = new Action;
-            $_action->add($class, $alias);
+            $_action->add($class, $alias, $is_cron, $is_shell);
         } else {
             throw new Exception('Action class does not exists');
         }

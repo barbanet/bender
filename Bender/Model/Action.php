@@ -37,8 +37,10 @@ class Action {
     }
     
     //TODO: replace function is for mysql. Also the slash issue is a little bit sloppy.
-    public function add($class, $alias) {
-        $this->_database->query("INSERT INTO actions(class, alias) VALUES (REPLACE('" . $class . "','/','\\\'), '" . $alias . "');");
+    public function add($class, $alias, $is_cron, $is_shell) {
+        $this->_database->query("INSERT INTO actions(class, alias, is_cron, is_shell) VALUES
+                                (REPLACE('" . $class . "','/','\\\'), '" . $alias . "',
+                                '" . $is_cron . "', '" . $is_shell . "');");
     }
     
     //TODO: is update a valid method?
@@ -50,7 +52,12 @@ class Action {
     }
     
     public function all() {
-        $_actions = $this->_database->query('SELECT action_id, class, alias, description, available FROM actions;');
+        $_actions = $this->_database->query('SELECT action_id, class, alias, description, is_cron, is_shell, available FROM actions;');
+        return $_actions;
+    }
+    
+    public function shell() {
+        $_actions = $this->_database->query('SELECT class, alias FROM actions WHERE is_shell = 1;');
         return $_actions;
     }
     
