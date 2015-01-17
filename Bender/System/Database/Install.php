@@ -17,6 +17,8 @@
 namespace Bender\System\Database;
 
 use Symfony\Component\Console as Console;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Bender\Core\Configuration;
 use Bender\Core\Database as Database;
 use Bender\Model\Option as Option;
@@ -36,24 +38,23 @@ class Install extends Core {
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         
         $_formatter = $this->getHelperSet()->get('formatter');
-        $_dialog = $this->getHelperSet()->get('dialog');
-
+        $_question = $this->getHelperSet()->get('question');
         $_message = $_formatter->formatSection(
             'Bender says',
             'This action will create the tables into your database. Do you want to continue? [y/N]'
         );
-        if (!$_dialog->askConfirmation(
+        $_ask = new ConfirmationQuestion($_message, false);
+        if (!$_question->ask(
+                $input,
                 $output,
-                $_message,
-                false
+                $_ask
             )) {
             return;
         }
 
-        $_progress = $this->getHelperSet()->get('progress');
         $_tables = $this->_getTables();
         
-        $_progress->start($output, count($_tables));
+        $_progress = new ProgressBar($output, count($_tables));
         foreach ($_tables as $_table) {
             $this->_database->query($_table);
             $_progress->advance();
