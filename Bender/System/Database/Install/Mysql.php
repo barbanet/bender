@@ -18,7 +18,7 @@ namespace Bender\System\Database\Install;
 
 class Mysql {
     
-    public function getTables() {
+    public static function getTables() {
         $_tables = array();
         $_tables[] = "CREATE TABLE IF NOT EXISTS options (
                         option_id INT NOT NULL AUTO_INCREMENT,
