@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,23 +19,25 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Chris Jones <leeked@gmail.com>
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated Deprecated since 2.5, to be removed in 3.0; use ProgressBar instead.
  */
 class ProgressHelper extends Helper
 {
-    const FORMAT_QUIET         = ' %percent%%';
-    const FORMAT_NORMAL        = ' %current%/%max% [%bar%] %percent%%';
-    const FORMAT_VERBOSE       = ' %current%/%max% [%bar%] %percent%% Elapsed: %elapsed%';
-    const FORMAT_QUIET_NOMAX   = ' %current%';
-    const FORMAT_NORMAL_NOMAX  = ' %current% [%bar%]';
+    const FORMAT_QUIET = ' %percent%%';
+    const FORMAT_NORMAL = ' %current%/%max% [%bar%] %percent%%';
+    const FORMAT_VERBOSE = ' %current%/%max% [%bar%] %percent%% Elapsed: %elapsed%';
+    const FORMAT_QUIET_NOMAX = ' %current%';
+    const FORMAT_NORMAL_NOMAX = ' %current% [%bar%]';
     const FORMAT_VERBOSE_NOMAX = ' %current% [%bar%] Elapsed: %elapsed%';
 
     // options
-    private $barWidth     = 28;
-    private $barChar      = '=';
+    private $barWidth = 28;
+    private $barChar = '=';
     private $emptyBarChar = '-';
     private $progressChar = '>';
-    private $format       = null;
-    private $redrawFreq   = 1;
+    private $format = null;
+    private $redrawFreq = 1;
 
     private $lastMessagesLength;
     private $barCharOriginal;
@@ -47,21 +50,21 @@ class ProgressHelper extends Helper
     /**
      * Current step
      *
-     * @var integer
+     * @var int
      */
     private $current;
 
     /**
      * Maximum number of steps
      *
-     * @var integer
+     * @var int
      */
     private $max;
 
     /**
      * Start time of the progress bar
      *
-     * @var integer
+     * @var int
      */
     private $startTime;
 
@@ -92,7 +95,7 @@ class ProgressHelper extends Helper
      */
     private $widths = array(
         'current' => 4,
-        'max'     => 4,
+        'max' => 4,
         'percent' => 3,
         'elapsed' => 6,
     );
@@ -113,6 +116,13 @@ class ProgressHelper extends Helper
         array(129600, '1 day'),
         array(604800, 'days', 86400),
     );
+
+    public function __construct($triggerDeprecationError = true)
+    {
+        if ($triggerDeprecationError) {
+            trigger_error('"Symfony\Component\Console\Helper\ProgressHelper" is deprecated since version 2.5 and will be removed in 3.0. Use "Symfony\Component\Console\Helper\ProgressBar" instead.', E_USER_DEPRECATED);
+        }
+    }
 
     /**
      * Sets the progress bar width.
@@ -178,14 +188,16 @@ class ProgressHelper extends Helper
      * Starts the progress output.
      *
      * @param OutputInterface $output An Output instance
-     * @param integer         $max    Maximum steps
+     * @param int|null        $max    Maximum steps
      */
     public function start(OutputInterface $output, $max = null)
     {
         $this->startTime = time();
-        $this->current   = 0;
-        $this->max       = (int) $max;
-        $this->output    = $output;
+        $this->current = 0;
+        $this->max = (int) $max;
+
+        // Disabling output when it does not support ANSI codes as it would result in a broken display anyway.
+        $this->output = $output->isDecorated() ? $output : new NullOutput();
         $this->lastMessagesLength = 0;
         $this->barCharOriginal = '';
 
@@ -220,32 +232,21 @@ class ProgressHelper extends Helper
     /**
      * Advances the progress output X steps.
      *
-     * @param integer $step   Number of steps to advance
-     * @param Boolean $redraw Whether to redraw or not
+     * @param int  $step   Number of steps to advance
+     * @param bool $redraw Whether to redraw or not
      *
      * @throws \LogicException
      */
     public function advance($step = 1, $redraw = false)
     {
-        if (null === $this->startTime) {
-            throw new \LogicException('You must start the progress bar before calling advance().');
-        }
-
-        if (0 === $this->current) {
-            $redraw = true;
-        }
-
-        $this->current += $step;
-        if ($redraw || 0 === $this->current % $this->redrawFreq) {
-            $this->display();
-        }
+        $this->setCurrent($this->current + $step, $redraw);
     }
 
     /**
      * Sets the current progress.
      *
-     * @param integer $current The current progress
-     * @param Boolean $redraw  Whether to redraw or not
+     * @param int  $current The current progress
+     * @param bool $redraw  Whether to redraw or not
      *
      * @throws \LogicException
      */
@@ -265,8 +266,12 @@ class ProgressHelper extends Helper
             $redraw = true;
         }
 
+        $prevPeriod = intval($this->current / $this->redrawFreq);
+
         $this->current = $current;
-        if ($redraw || 0 === $this->current % $this->redrawFreq) {
+
+        $currPeriod = intval($this->current / $this->redrawFreq);
+        if ($redraw || $prevPeriod !== $currPeriod || $this->max === $this->current) {
             $this->display();
         }
     }
@@ -274,7 +279,7 @@ class ProgressHelper extends Helper
     /**
      * Outputs the current progress string.
      *
-     * @param Boolean $finish Forces the end result
+     * @param bool $finish Forces the end result
      *
      * @throws \LogicException
      */
@@ -336,27 +341,27 @@ class ProgressHelper extends Helper
         }
 
         if ($this->max > 0) {
-            $this->widths['max']     = $this->strlen($this->max);
+            $this->widths['max'] = $this->strlen($this->max);
             $this->widths['current'] = $this->widths['max'];
         } else {
             $this->barCharOriginal = $this->barChar;
-            $this->barChar         = $this->emptyBarChar;
+            $this->barChar = $this->emptyBarChar;
         }
     }
 
     /**
      * Generates the array map of format variables to values.
      *
-     * @param Boolean $finish Forces the end result
+     * @param bool $finish Forces the end result
      *
      * @return array Array of format vars and values
      */
     private function generate($finish = false)
     {
-        $vars    = array();
+        $vars = array();
         $percent = 0;
         if ($this->max > 0) {
-            $percent = (double) $this->current / $this->max;
+            $percent = (float) $this->current / $this->max;
         }
 
         if (isset($this->formatVars['bar'])) {
@@ -405,7 +410,7 @@ class ProgressHelper extends Helper
     /**
      * Converts seconds into human-readable format.
      *
-     * @param integer $secs Number of seconds
+     * @param int $secs Number of seconds
      *
      * @return string Time in readable format
      */
@@ -430,8 +435,8 @@ class ProgressHelper extends Helper
     /**
      * Overwrites a previous message to the output.
      *
-     * @param OutputInterface $output   An Output instance
-     * @param string          $message  The message
+     * @param OutputInterface $output  An Output instance
+     * @param string          $message The message
      */
     private function overwrite(OutputInterface $output, $message)
     {
@@ -450,7 +455,7 @@ class ProgressHelper extends Helper
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
