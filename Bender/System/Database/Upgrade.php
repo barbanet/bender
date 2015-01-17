@@ -17,6 +17,8 @@
 namespace Bender\System\Database;
 
 use Symfony\Component\Console as Console;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Bender\Core\Configuration;
 use Bender\Core\Database as Database;
 use Bender\Model\Option as Option;
@@ -36,25 +38,25 @@ class Upgrade extends Core {
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
         
         $_formatter = $this->getHelperSet()->get('formatter');
-        $_dialog = $this->getHelperSet()->get('dialog');
+        $_question = $this->getHelperSet()->get('question');
 
         if ($this->_getDbVersion() != $this->_getAppVersion()) {
             $_message = $_formatter->formatSection(
                 'Bender says',
                 'This action will update your database. Do you want to continue? [y/N]'
             );
-            if (!$_dialog->askConfirmation(
-                    $output,
-                    $_message,
-                    false
-                )) {
+            $_ask = new ConfirmationQuestion($_message, false);
+            if (!$_question->ask(
+                $input,
+                $output,
+                $_ask
+            )) {
                 return;
             }
 
-            $_progress = $this->getHelperSet()->get('progress');
             $_upgrades = $this->_getUpgrades();
 
-            $_progress->start($output, count($_upgrades));
+            $_progress = new ProgressBar($output, count($_upgrades));
             foreach ($_upgrades as $_upgrade) {
                 $this->_database->query($_upgrade);
                 $_progress->advance();
