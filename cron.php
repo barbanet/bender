@@ -14,15 +14,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require_once __DIR__.'/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+require_once __DIR__.'/Symfony/Component/ClassLoader/ClassLoader.php';
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+use Symfony\Component\ClassLoader\ClassLoader;
 
-$loader = new UniversalClassLoader();
-$loader->registerNamespace('Symfony', __DIR__.'/');
-$loader->registerNamespace('Bender', __DIR__.'/');
-$loader->registerNamespace('Plugin', __DIR__.'/');
-$loader->registerNamespace('Action', __DIR__.'/');
+$loader = new ClassLoader();
+$loader->addPrefix('Symfony', __DIR__.'/');
+$loader->addPrefix('Bender', __DIR__.'/');
+$loader->addPrefix('Plugin', __DIR__.'/');
+$loader->addPrefix('Action', __DIR__.'/');
 $loader->register();
 
 use Symfony\Component\Console as Console;
