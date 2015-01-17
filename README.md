@@ -3,7 +3,7 @@
 The idea behind this application is to provide a minimal structure to create actions and tasks that can be run from a single call to the crontab.
 
 
-* Version: 0.0.4
+* Version: 0.0.5
 
 
 ## Requirements
@@ -22,4 +22,4 @@ The idea behind this application is to provide a minimal structure to create act
 
 ## Blog
 
-[Official blog](http://www.damianculotta.com.ar/category/laboratorio/bender/)
+[Official blog](http://www.damianculotta.com.ar/laboratorio/bender/)
