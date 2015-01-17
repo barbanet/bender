@@ -58,10 +58,14 @@ class Action {
     }
     
     public function shell() {
-        $_option = new Option;
-        if ($_option->load('bender/custom_actions') && $_option->load('bender/custom_actions')->value == 1) {
-            $_actions = $this->_database->query('SELECT class, alias FROM actions WHERE is_shell = 1;');
-            return $_actions;
+        try {
+            $_option = new Option;
+            if ($_option->load('bender/custom_actions') && $_option->load('bender/custom_actions')->value == 1) {
+                $_actions = $this->_database->query('SELECT class, alias FROM actions WHERE is_shell = 1;');
+                return $_actions;
+            }
+        } catch (\Exception $e) {
+            return false;
         }
         return false;
     }
