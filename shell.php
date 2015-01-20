@@ -10,7 +10,7 @@
  *
  * @category   Core
  * @package    Core
- * @copyright  Copyright (c) 2013 Damián Culotta. (http://www.damianculotta.com.ar/)
+ * @copyright  Copyright (c) 2015 Damián Culotta. (http://www.damianculotta.com.ar/)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -52,7 +52,7 @@ if ($_actions->shell()) {
     }
 }
 
-$application = new Console\Application('Bender', '0.0.4');
+$application = new Console\Application('Bender', '0.0.5');
 foreach ($functions as $function) {
     $application->add(new $function['name']($function['alias']));
 }
