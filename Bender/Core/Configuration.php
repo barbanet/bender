@@ -16,7 +16,7 @@
 
 namespace Bender\Core;
 
-use Symfony\Component\Yaml\Yaml as Yaml;
+use Symfony\Component\Yaml\Parser as Yaml;
 use \Exception;
 
 class Configuration {
@@ -25,7 +25,8 @@ class Configuration {
     
     private static function _initialize() {
         try {
-            self::$_configuration = Yaml::parse('config.yml');
+            $yaml = new Yaml();
+            self::$_configuration = $yaml->parse(file_get_contents('config.yml'));
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

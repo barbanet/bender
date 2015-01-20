@@ -2,6 +2,7 @@ Version 0.0.5
 
 * Upgrade of Symfony components.
 * Fixed helpers calls.
+* Fixed Yaml component calls.
 
 Version 0.0.4
 

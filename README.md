@@ -8,7 +8,7 @@ The idea behind this application is to provide a minimal structure to create act
 
 ## Requirements
 
-* PHP 5.3.3 or higher.
+* PHP 5.4 or higher.
 * MySQL 5 or higher.
 
 ## Installation instructions

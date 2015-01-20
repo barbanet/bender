@@ -17,7 +17,7 @@
 namespace Bender;
 
 use Symfony\Component\Console as Console;
-use Symfony\Component\Yaml\Yaml as Yaml;
+use Symfony\Component\Yaml\Parser as Yaml;
 use Bender\Core\Logger as Logger;
 use Bender\Core\Email as Email;
 
@@ -32,7 +32,8 @@ class Core extends Console\Command\Command {
     }
         
     private function _validateInstaller() {
-        if (!Yaml::parse('config.yml')) {
+        $yaml = new Yaml();
+        if (!$yaml->parse(file_get_contents('config.yml'))) {
             //Throw exception message
         }
     }
